@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Library Book Finder - Login</title>
+  <style>
+    /* Internal CSS */
+    body {
+      /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0; */
+      font-family: cursive;
+      background-image: url(b.jpg);
+      background-repeat: no-repeat;
+      background-position:center ;
+      background-size: cover;
+      background-attachment: fixed;
+      width: 1vh;
+      height: 1vh;
+    }
+
+    .login-container {
+      /* background: white; */
+      padding: 30px 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      width: 320px;
+      text-align: center;
+      
+      position: relative;
+      left: 640px;
+    }
+
+    .login-container h2 {
+      margin-bottom: 24px;
+      
+      color: rgb(66, 25, 8);
+      font-size: 50px;
+      font-family: cursive;
+    }
+
+    .login-container label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      font-weight: 600;
+      /* color: #555; */
+      font-size: 20px;
+      font-family: cursive;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 18px;
+      /* border: 1px solid #ccc; */
+      border-radius: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .login-container input[type="text"]:focus,
+    .login-container input[type="password"]:focus {
+      border-color: #0078d7;
+      outline: none;
+    }
+
+    .login-container button {
+      background-color: lightgoldenrodyellow;
+      color:black;
+      border: none;
+      padding: 12px;
+      width: 100%;
+     
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    
+
+    .error-message {
+      color: #e03e2f;
+      margin-bottom: 15px;
+      font-size: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2> Login page</h2>
+    <div class="error-message" id="error-msg"></div>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter username" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter password" />
+
+      
+      <button type="submit">Login</button>
+    </form>
+     
+  </div>
+<a href="index.html"></a>
+  <script>
+    // JavaScript for basic form validation
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorMsg = document.getElementById('error-msg');
+
+      // Clear previous error
+      errorMsg.style.display = 'none';
+      errorMsg.textContent = '';
+
+      if (!username || !password) {
+        errorMsg.textContent = 'Please enter both username and password.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      // Dummy check - replace this with real authentication logic
+      if(username === 'priya' && password === '123') {
+        alert('Login successful! Welcome to Library Book Finder.');
+        localStorage.setItem("loggedIn","true");
+        window.location.href="home.html";
+
+
+        // Redirect or load main app page here
+      } else {
+        errorMsg.textContent = 'Invalid username or password.';
+        errorMsg.style.display = 'block';
+        // document.getElementById("errormsg").innerText="Invalid username or password";
+      }
+    });
+  </script>
+  
+</body>
+</html>

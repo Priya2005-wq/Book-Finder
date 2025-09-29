@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logout</title>
+  <style>
+    body {
+      font-family: cursive;
+      /* background: #f0f4f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; */
+       font-family: cursive;
+      background-image: url(l.jpg);
+      background-repeat: no-repeat;
+      background-position:center ;
+      background-size: cover;
+      background-attachment: fixed;
+      width: 1vh;
+      height: 1vh;
+    }
+
+    .logout-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+      margin-left: 650px;
+      margin-top: 250px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    button {
+      background: #ff4d4d;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e60000;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="logout-box">
+    <h2>Are you sure you want to logout?</h2>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function logout() {
+      // Clear user session (localStorage or sessionStorage)
+      localStorage.removeItem("username"); 
+      sessionStorage.clear();
+
+      // Redirect back to login page
+      window.location.href = "login.html";  
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Book Finder</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url('a.jpg');
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      font-family: cursive;
+      font-size: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: lightgoldenrodyellow;
+    }
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 1em;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: lightgoldenrodyellow;
+      border: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+      color: white;
+    }
+    .results {
+      margin-top: 20px;
+    }
+    .book {
+      display: flex;
+      margin-bottom: 20px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 10px;
+    }
+    .cover {
+      margin-right: 20px;
+    }
+    .cover img {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .details {
+      flex-grow: 1;
+    }
+    .details h3 {
+      margin: 0;
+      color: #2c3e50;
+    }
+    .details p {
+      margin: 5px 0;
+      color: #7f8c8d;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Library Book Finder</h1>
+    <form id="searchForm">
+      <input type="text" id="searchInput" placeholder="Enter book title..." required />
+      <button type="submit">Search</button>
+    </form>
+    <div id="results" class="results"></div>
+    <a href="logout.html"><button>Logout</button></a>
+  </div>
+
+  <script>
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('searchInput');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = input.value.trim();
+      if (!query) {
+        resultsDiv.innerHTML = '<p class="error">Please enter a book title.</p>';
+        return;
+      }
+      resultsDiv.innerHTML = '<p>Loading results...</p>';
+      fetchBooks(query);
+    });
+
+    function fetchBooks(title) {
+      const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(title)}&limit=10`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch data.');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (!data.docs || data.docs.length === 0) {
+            resultsDiv.innerHTML = '<p class="error">No books found.</p>';
+            return;
+          }
+          displayResults(data.docs);
+        })
+        .catch(err => {
+          resultsDiv.innerHTML = `<p class="error">${err.message}</p>`;
+        });
+    }
+
+    function displayResults(books) {
+      resultsDiv.innerHTML = '';
+      books.forEach(book => {
+        const bookDiv = document.createElement('div');
+        bookDiv.classList.add('book');
+
+        const coverUrl = book.cover_i
+          ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
+          : 'https://via.placeholder.com/120x180?text=No+Cover';
+
+        bookDiv.innerHTML = `
+          <div class="cover">
+            <img src="${coverUrl}" alt="${book.title}">
+          </div>
+          <div class="details">
+            <h3>${book.title}</h3>
+            <p><strong>Author:</strong> ${book.author_name ? book.author_name.join(', ') : 'Unknown'}</p>
+            <p><strong>First Published:</strong> ${book.first_publish_year || 'N/A'}</p>
+          </div>
+        `;
+        resultsDiv.appendChild(bookDiv);
+      });
+    }
+  </script>
+</body>
+</html>
