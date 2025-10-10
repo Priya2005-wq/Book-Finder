@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dictionary App Ratings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      /* background: #f7f9fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; */
+       font-family: cursive;
+      background-image: url(r.jpg);
+      background-repeat: no-repeat;
+      background-position:center ;
+      background-size: cover;
+      background-attachment: fixed;
+      width: 1vh;
+      height: 1vh;
+    }
+    .rating-widget {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      text-align: center;
+      margin-left: 650px;
+      margin-top: 200px;
+      width: 300px;
+    }
+    h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+    .stars {
+      font-size: 40px;
+      color: #ccc;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+    }
+    .stars span {
+      margin: 0 6px;
+      transition: color 0.2s;
+    }
+    .stars .filled {
+      color: gold;
+    }
+    .average {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #555;
+    }
+    .thanks-message {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+      font-size: 16px;
+      height: 22px; /* keep space reserved */
+    }
+    body{
+      font-family: cursive;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="rating-widget">
+    <h2>Rate Our book finder App</h2>
+    <div class="stars" id="stars">
+      <!-- stars inserted here -->
+    </div>
+    <div class="average" id="averageRating">Average Rating: N/A</div>
+    <div class="thanks-message" id="thanksMessage"></div>
+    <a href="home.html"><button>Rating</button></a>
+  </div>
+<!-- <a href="home.html"><button>Rating</button></a> -->
+  <script>
+    // Ratings dictionary: store all user ratings in array
+    // For demo, we treat all ratings as from anonymous users
+    const ratingsData = [];
+
+    const starsDiv = document.getElementById('stars');
+    const averageRatingDiv = document.getElementById('averageRating');
+    const thanksMessageDiv = document.getElementById('thanksMessage');
+
+    // Create 5 star elements
+    function createStars() {
+      for(let i=1; i<=5; i++) {
+        const star = document.createElement('span');
+        star.innerHTML = '★';
+        star.dataset.value = i;
+        star.title = `Rate ${i} star${i > 1 ? 's' : ''}`;
+        star.addEventListener('mouseenter', () => highlightStars(i));
+        star.addEventListener('mouseleave', () => highlightStars(0));
+        star.addEventListener('click', () => submitRating(i));
+        starsDiv.appendChild(star);
+      }
+    }
+
+    // Highlight stars up to index, or reset if 0
+    function highlightStars(rating) {
+      const stars = starsDiv.querySelectorAll('span');
+      stars.forEach((star, i) => {
+        if(i < rating) {
+          star.classList.add('filled');
+        } else {
+          star.classList.remove('filled');
+        }
+      });
+    }
+
+    // Calculate average rating
+    function getAverageRating() {
+      if(ratingsData.length === 0) return 0;
+      const sum = ratingsData.reduce((a,b) => a + b, 0);
+      return sum / ratingsData.length;
+    }
+
+    // Update average rating display
+    function updateAverageDisplay() {
+      const avg = getAverageRating();
+      if(avg === 0) {
+        averageRatingDiv.textContent = 'Average Rating: N/A';
+      } else {
+        averageRatingDiv.textContent = `Average Rating: ${avg.toFixed(2)} / 5 (${ratingsData.length} rating${ratingsData.length > 1 ? 's' : ''})`;
+      }
+    }
+
+    // Submit rating function
+    function submitRating(rating) {
+      ratingsData.push(rating);
+      updateAverageDisplay();
+      thanksMessageDiv.textContent = `Thanks for rating us ${rating} star${rating > 1 ? 's' : ''}!`;
+      highlightStars(0); // reset hover highlight
+    }
+
+    // Initialize
+    createStars();
+    updateAverageDisplay();
+
+  </script>
+
+</body>
+</html>
